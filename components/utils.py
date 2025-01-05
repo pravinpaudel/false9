@@ -54,3 +54,43 @@ def fetch_standings(league_name):
 
 
 #fetch_news()
+
+def fetch_fixtures():
+    try:
+        conn = http.client.HTTPSConnection("free-api-live-football-data.p.rapidapi.com")
+        # Create a date object for today
+        today = date.today().isoformat().replace("-", "")
+        
+        conn.request("GET", f"/football-get-matches-by-date-and-league?date={today}", headers=headers)
+
+        res = conn.getresponse()
+
+        if res.status != 200:
+            return None
+        data = res.read()
+        fixtures = json.loads(data.decode("utf-8"))['response']
+        return fixtures
+    except Exception as e:
+        return None
+
+def fetch_fixture_details(event_id):
+    try:
+        conn = http.client.HTTPSConnection("free-api-live-football-data.p.rapidapi.com")
+        conn.request("GET", f"/football-get-awayteam-lineup?eventid={event_id}", headers=headers)
+
+        res = conn.getresponse()
+        data = res.read()
+
+        away_team_info = json.loads(data.decode("utf-8"))['response']
+
+        conn.request("GET", f"/football-get-hometeam-lineup?eventid={event_id}", headers=headers)
+
+        res = conn.getresponse()
+        data = res.read()
+    
+        home_team_info = json.loads(data.decode("utf-8"))['response']
+
+        return home_team_info, away_team_info
+        
+    except Exception as e:
+        return None, None

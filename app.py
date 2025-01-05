@@ -46,7 +46,6 @@ if page == "Home":
 elif page == "Matches":
     show_fixtures()
 elif page == "Statistics":
-    st.header("Statistics")
     league_names = list(leagues.keys())
     
     # Create a sidebar for league buttons 

@@ -15,7 +15,8 @@ leagues = {
     "Europa League": 67,
     "Serie A": 55,
     "Bundesliga": 54,
-    "Ligue 1": 53
+    "Ligue 1": 53,
+    "Copa del Rey": 138
 }
 
 rss_feeds = [

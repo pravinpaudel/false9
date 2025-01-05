@@ -9,5 +9,6 @@ def show_standings(league_name):
         return
     df = pd.DataFrame(standings, columns=['idx', 'name', 'played', 'wins', 'draws', 'losses', 'scoresStr', 'goalConDiff', 'pts'])
     df.columns = ['Rank', 'Name', 'Played', 'Wins', 'Draws', 'Losses', 'Scores', 'Goal Difference', 'Points']
-    
+
+    st.header(league_name)
     st.table(df.style.hide(axis="index"))
