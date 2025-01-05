@@ -3,7 +3,7 @@ import feedparser
 from data.config import rss_feeds
 
 def show_home():
-    st.title("News Aggregator")
+    st.title("Kick-Off")
     articles = []
     for url in rss_feeds:
         feed = feedparser.parse(url)
