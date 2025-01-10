@@ -23,7 +23,7 @@ st.markdown("""
     </style> """, unsafe_allow_html=True)
 
 # Display the logo above the navigation bar 
-st.image("logo.png", width=100) 
+#st.image("logo.png", width=100) 
 #logo = st.logo(image="logo.png", size="large", icon_image="logo.png")
 
 page = option_menu(
