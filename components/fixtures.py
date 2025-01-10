@@ -10,56 +10,96 @@ def show_fixtures():
         st.write("No matches today.")
         return
 
-    for league in fixtures:
-        # League Name
-        st.html(
-            f"<h1 style='text-align: center;'><span style='color: #FA7F73;'> {league['name']} </span></span></h1>"
-        )
+    for match in fixtures:
+        # # League Name
+        # st.html(
+        #     f"<h1 style='text-align: center;'><span style='color: #FA7F73;'> {league['name']} </span></span></h1>"
+        # )
         
+        event_id = match['fixture']['id']
+        time = match['fixture']['date'][:10]
+
+        status = match['fixture']['status']['short']
+        live_time = match['fixture']['status']['elapsed']
+        
+        league_name = match['league']['name']
+        league_logo = match['league']['logo']
+        round = match['league']['round']
+
+        home_team = match['teams']['home']['name']
+        home_team_logo = match['teams']['home']['logo']
+
+        away_team = match['teams']['away']['name']
+        away_team_logo = match['teams']['away']['logo']
+
+        home_score = match['goals']['home']
+        away_score = match['goals']['away']
         #st.subheader(f"\t{league['name']}")
+
+        if status != 'FT' and status != 'CANC':
+            st.html(
+                f"<h1 style = 'margin: 0;'>{home_team}  <span style='color: yellow;'>{home_score} - {away_score}</span>   \
+                {away_team} \t > <span style='color: yellow;'>{live_time}''</span></h1>"
+            )
         
-        for match in league['matches']:
-            event_id = match['id']
-            time = match['time']
+        else:
+            st.html(f"<h1 style = 'margin: 0;'>{home_team}  <span style='color: #FA7F73;'>{home_score} - {away_score}</span>    {away_team}</h1>")
+
+        st.write(f"\tDate & Time: {time}")
+        st.write(f"Matchday: {round}")
+        st.write(f"Status: {status}")
+        st.write(f"League: {league_name}")
+
+        # Popover for detailed match info
+        with st.popover("View Details", icon=":material/expand_circle_down:", disabled=False): 
+            home_team_info, away_team_info = fetch_fixture_details(event_id)
+            st.json(home_team_info)
+            st.json(away_team_info)
+
+        st.write("---")
+        
+        # for match in league['matches']:
+        #     event_id = match['id']
+        #     time = match['time']
             
-            home_team = match['home']['name']
-            away_team = match['away']['name']
-            home_score = match['home']['score']
-            away_score = match['away']['score']
+        #     home_team = match['home']['name']
+        #     away_team = match['away']['name']
+        #     home_score = match['home']['score']
+        #     away_score = match['away']['score']
 
-            match_day = match['tournamentStage']
+        #     match_day = match['tournamentStage']
 
-            try:
-                live_time = match['status'].get('liveTime')['short']
-            except Exception as e:
-                live_time = -1
+        #     try:
+        #         live_time = match['status'].get('liveTime')['short']
+        #     except Exception as e:
+        #         live_time = -1
 
-            status = match['status']['finished']
-            # try:
-            #     status = match['status']['finished']
-            # except Exception as e:
-            #     st.write(e)
-            #     status = False
+        #     status = match['status']['finished']
+        #     # try:
+        #     #     status = match['status']['finished']
+        #     # except Exception as e:
+        #     #     st.write(e)
+        #     #     status = False
 
-            if not status:
-                st.html(
-                    f"<h1 style = 'margin: 0;'>{home_team}  <span style='color: yellow;'>{home_score} - {away_score}</span>   \
-                    {away_team} \t > <span style='color: yellow;'>{live_time}</span></h1>"
-                )
-            else:
-                st.html(f"<h1 style = 'margin: 0;'>{home_team}  <span style='color: #FA7F73;'>{home_score} - {away_score}</span>    {away_team}</h1>")
+        #     if not status:
+        #         st.html(
+        #             f"<h1 style = 'margin: 0;'>{home_team}  <span style='color: yellow;'>{home_score} - {away_score}</span>   \
+        #             {away_team} \t > <span style='color: yellow;'>{live_time}</span></h1>"
+        #         )
+        #     else:
+        #         st.html(f"<h1 style = 'margin: 0;'>{home_team}  <span style='color: #FA7F73;'>{home_score} - {away_score}</span>    {away_team}</h1>")
                 
-            #st.write(f"Status: {'Finished' if status else 'Ongoing'}")
-            st.write(f"\tDate & Time: {time}")
-            st.write(f"Matchday: {match_day}")
+        #     #st.write(f"Status: {'Finished' if status else 'Ongoing'}")
+        #     st.write(f"\tDate & Time: {time}")
+        #     st.write(f"Matchday: {match_day}")
 
-            # Popover for detailed match info
-            with st.popover("View Details", icon=":material/expand_circle_down:", disabled=False): 
-                home_team_info, away_team_info = fetch_fixture_details(event_id)
-                st.json(home_team_info)
-                st.json(away_team_info)
+        #     # Popover for detailed match info
+        #     with st.popover("View Details", icon=":material/expand_circle_down:", disabled=False): 
+        #         home_team_info, away_team_info = fetch_fixture_details(event_id)
+        #         st.json(home_team_info)
+        #         st.json(away_team_info)
 
-            st.write("---")
+        #     st.write("---")
             
     # for match in fixtures['response']['matches']:
     #     home_team = match['home']['name']

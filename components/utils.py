@@ -1,7 +1,15 @@
 import http.client
 import json
-from data.config import RAPID_API_KEY, headers, leagues
+#from data.config import headers, leagues
 from datetime import date
+
+import os
+import requests
+API_KEY = os.environ.get('APISPORTS_API_KEY')
+headers = {
+    'x-rapidapi-host': "v3.football.api-sports.io",
+    'x-rapidapi-key': API_KEY
+    }
 
 def fetch_live_scores():
     try:
@@ -57,18 +65,19 @@ def fetch_standings(league_name):
 
 def fetch_fixtures():
     try:
-        conn = http.client.HTTPSConnection("free-api-live-football-data.p.rapidapi.com")
-        # Create a date object for today
-        today = date.today().isoformat().replace("-", "")
+        conn = http.client.HTTPSConnection("v3.football.api-sports.io")
         
-        conn.request("GET", f"/football-get-matches-by-date-and-league?date={today}", headers=headers)
+        conn.request("GET", "/fixtures?date=2025-01-10&live=39-140", headers=headers)
 
         res = conn.getresponse()
 
         if res.status != 200:
             return None
         data = res.read()
+        
         fixtures = json.loads(data.decode("utf-8"))['response']
+        print(fixtures)
+        
         return fixtures
     except Exception as e:
         return None
@@ -94,3 +103,19 @@ def fetch_fixture_details(event_id):
         
     except Exception as e:
         return None, None
+
+
+def fetch_standing(league_id):
+    
+    api_call = requests.get("https://www.thesportsdb.com//api/v1/json/3/lookuptable.php?l=4328&s=2024-2025")
+    storage = api_call.json()
+        
+    for event in storage["events"]:
+        date_event = event["dateEvent"]
+        home_team = event["strHomeTeam"]
+        away_team = event["strAwayTeam"]
+
+        print(f"{date_event}: {home_team} vs {away_team}")
+
+event_ids = [2052711, 2052712, 2052713, 2052714]
+

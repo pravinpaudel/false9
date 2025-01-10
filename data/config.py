@@ -1,22 +1,27 @@
 import os
 
-RAPID_API_KEY = os.environ.get('RAPID_API_KEY', 'your_default_key_here')
+API_KEY = os.environ.get('APISPORTS_API_KEY')
+
 
 # Header to be used for all API requests, to authenticate the request 
 headers = {
-    'x-rapidapi-key': RAPID_API_KEY,
-    'x-rapidapi-host': "free-api-live-football-data.p.rapidapi.com"
-}
+    'x-rapidapi-host': "v3.football.api-sports.io",
+    'x-rapidapi-key': API_KEY
+    }
 
 leagues = {
     "Champions League": 42,
-    "Premier League": 47,
-    "La Liga": 87,
+    "Premier League": 39,
+    "La Liga": 140,
     "Europa League": 67,
     "Serie A": 55,
     "Bundesliga": 54,
     "Ligue 1": 53,
-    "Copa del Rey": 138
+    "Copa del Rey": 143
+}
+
+sports_db_leagues = {
+    "Premier League": 4328
 }
 
 rss_feeds = [
