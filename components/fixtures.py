@@ -54,10 +54,10 @@ def show_fixtures():
             st.write(f"Matchday: {match_day}")
 
             # Popover for detailed match info
-            with st.popover("View Details", icon=":material/expand_circle_down:", disabled=False): 
-                home_team_info, away_team_info = fetch_fixture_details(event_id)
-                st.json(home_team_info)
-                st.json(away_team_info)
+            # with st.popover("View Details", icon=":material/expand_circle_down:", disabled=False): 
+            #     home_team_info, away_team_info = fetch_fixture_details(event_id)
+            #     st.json(home_team_info)
+            #     st.json(away_team_info)
 
             st.write("---")
             
